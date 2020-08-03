@@ -1,0 +1,202 @@
+body
+{
+    padding: 70px;
+    
+}
+.navbar {
+    min-height: 70px;
+    margin-bottom: 70px;
+}
+
+
+.navbar-inverse .navbar-nav > .active > a,
+ .navbar-inverse .navbar-nav > .active > a:hover,
+ .navbar-inverse .navbar-nav > .active > a:focus
+{
+background-color: #E41B17;     
+}
+
+.navbar-inverse .navbar-brand
+{
+    color: #BBB;
+    font-size: 30px;
+    line-height: 40px;
+}
+
+.navbar-nav .open .dropdown-menu,
+.dropdown-menu
+{
+    background-color:cyan;
+}
+.navbar-inverse
+{
+    background-color:black
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus
+{
+background-color: white;
+    padding-left: 25px;
+    color: black;
+}
+
+
+.dropdown-menu > li > a 
+{
+    padding: 6px 20px;
+    -webkit-transition:padding 0.5s ease;
+    
+    -o-transition:padding 0.5s ease;
+    transition:padding 0.5s ease;
+    
+}
+
+
+.navbar-right .dropdown-menu {
+    right: auto;
+    left: 0;
+}
+
+.navbar-right
+{
+        margin-right: 50px;
+        margin-top: 11px;
+}
+
+.navbar-toggle
+{
+    margin-top: 18px
+}
+
+
+.navbar-inverse .navbar-nav .open .dropdown-menu > li > a
+{
+    color: black;
+    
+}
+.navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover,
+.navbar-inverse .navbar-nav .open .dropdown-menu > li > a:focus
+{
+    color: black;
+}
+.navbar-inverse .navbar-nav .open .dropdown-menu .divider {
+    background-color: #e5e5e5;
+}
+
+.navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover,
+.navbar-inverse .navbar-nav .open .dropdown-menu > li > a:focus
+{
+    background-color: white;
+    padding-left: 25px;
+    color: black;
+}
+
+.RequestVacationBody, .CreateNewEmployeeBody {
+    background-color: #d0d0ce;
+}
+
+.MyDetailsPageBody {
+    background-color: #d0d0ce;
+}
+
+
+
+.MyVactionsTable {
+    margin-top: 4px;
+    background-color: white;
+    padding: 50px;
+    border-radius: 10%;
+}
+
+.newVacationRequest {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.requestVacationDiv {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border: 0;
+    border-radius: 27.5px;
+    box-shadow: 0 10px 30px 0;
+    overflow: hidden;
+    background-color: white;
+    font-size: 15px;
+}
+.RequestVacationForm {
+    font-size: 15px;
+    color: #000;
+    font-weight: normal;
+    margin-bottom: 23px;
+    padding-top:10px;
+    padding-bottom:10px;
+}
+
+.SignupForm {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-radius: 27.5px;
+    box-shadow: 0 10px 30px 0;
+    overflow: hidden;
+    background-color: aqua;
+}
+
+.form-control {
+    border: 1px solid #d5dae2;
+    padding: 15px 25px;
+    margin-bottom: 20px;
+    min-height: 45px;
+    font-size: 13px;
+    line-height: 2;
+    font-weight: normal;
+}
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.Signup-card-description {
+    font-size: 25px;
+    color: #000;
+    font-weight: normal;
+    margin-bottom: 23px;
+}
+
+#signup
+{
+    background-color: black;
+    color: white;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+#generatePassword {
+    background-color:indianred;
+    color: white;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.editYourProfileButton
+{
+    padding-bottom:5px;
+    margin-bottom:10px;
+}
+
+#searchForVacationDiv {
+    margin: 10px;
+    border-bottom: 2px solid #e5e5e5;
+   
+}
+
+#StatusField{
+    padding-top:10px;
+}
+
+.MyEmployeesTable {
+    margin-top: 30px;
+    background-color: white;
+    padding: 50px;
+    border-radius: 10%;
+}

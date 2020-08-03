@@ -1,0 +1,52 @@
+﻿@{
+    <title>@ViewData["Title"] - HRSystem</title>
+}
+
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="this is my javascript pracvtise">
+    <!--internet explorer meta-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- to make the webpage responsive to mobile devices-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" />
+        <link href="~/lib/jqueryui/themes/base/jquery-ui.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/lib/bootstrap/css/MyStyle.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+        <link href="~/lib/jqueryui/themes/base/jquery-ui.css" rel="stylesheet" />
+        <link rel="stylesheet" href="~/lib/bootstrap/css/MyStyle.css" />
+    </environment>
+</head>
+<body>
+
+
+    @RenderBody()
+
+
+    <environment include="Development">
+        <script src="~/lib/bootstrapJquery/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="~/lib/bootstrap/js/plugin.js"></script>
+        <script src="~/assets/js/Plugin.js"></script>
+
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/bootstrapJquery/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="~/lib/bootstrap/js/plugin.js"></script>
+        <script src="~/assets/js/Plugin.js"></script>
+    </environment>
+</body>
+
+</html>

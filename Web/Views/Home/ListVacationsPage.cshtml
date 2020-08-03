@@ -1,0 +1,318 @@
+﻿@model Web.ViewsModels.HolidayViewModel
+@{
+    ViewData["Title"] = "MainPage";
+}
+
+    <body>
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <script>
+        $(document).ready(function () {
+            alert('@ViewBag.ViewBag.Error');
+        });
+            </script>
+        }
+        @if (ViewBag.ErrorMessage == null)
+        {
+            <nav class="navbar navbar-default navbar-fixed-top">
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">HR<span> System</span></a>
+                    </div>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-right">
+
+                            @if (ViewBag.UserRole.Equals("Admin") || ViewBag.UserRole.Equals("Manager"))
+                            {
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Employees<span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+
+                                        @if (ViewBag.UserRole.Equals("Admin"))
+                                        {
+                                            <li><a href="@Url.Action("CreateAccount","Home")">Add New Manager</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="@Url.Action("RetrieveManagersEmployees","Home")">Managers Under My Administration</a></li>
+
+                                        }
+                                        @if (ViewBag.UserRole.Equals("Manager"))
+                                        {
+                                            <li><a href="@Url.Action("CreateAccount","Home")">Add New Employee</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="@Url.Action("RetrieveManagersEmployees","Home")">Employees Under My Management</a></li>
+
+                                        }
+                                    </ul>
+                                </li>
+
+                            }
+                            @*<li><a href="@Url.Action("CreateAccount","Home")">Add New Employee</a></li>*@
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Vacation <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="@Url.Action("RequestVacation","Home")">Request a Vaction</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="@Url.Action("ListEmployeeVacations","Home")">List My Vacations</a></li>
+
+                                    @if (ViewBag.UserRole.Equals("HR"))
+                                    {
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="@Url.Action("ListEmployeesVacationsRequests","Home")">List Employees Requests</a></li>
+                                    }
+                                </ul>
+                            </li>
+
+
+
+
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span><span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="@Url.Action("EmployeeDetails","Home")">My Profile</a></li>
+
+                                    <li role="separator" class="divider"></li>
+                                    @if (!ViewBag.UserRole.Equals("Admin"))
+                                    {
+                                        <li><a href="@Url.Action("ShowManagerDetails","Home")">Manager Profile</a></li>
+                                        <li role="separator" class="divider"></li>
+                                    }
+
+
+                                    <li><a href="@Url.Action("Logout","Home")">Logout<span class="glyphicon glyphicon-log-out"></span></a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div><!--END OF THE CONTAINER-->
+
+            </nav>
+
+
+            @if (ViewBag.UserRole.Equals("HR"))
+            {
+                @if (ViewBag.ActionMethodName.Equals("ListEmployeeVacations"))
+                {
+                    <div id="searchForVacationDiv" class="row">
+                        <div class="col-lg-offset-3 col-lg-6 ">
+                            @*<div>
+                            <input type="radio" id="status" name="check" value="status">
+                            <label for="vehicle1"> Search By Holiday's Status</label><br>
+                            <input type="radio" id="startDate" name="check" value="startDate">
+                            <label for="vehicle2"> Search By Holiday's Start Date</label><br>
+                                            <input type="hidden" id="hiddenText" />*@
+                            <!-- </div>/input-group -->
+                            <div>
+                                @using (Html.BeginForm("ListEmployeeVacationsByStatus", "Home"))
+                                {
+                                    <form>
+                                        <div id="StatusField">
+                                            <select name="status" class="form-control" style="display:inline">
+                                                <option value="" disabled selected hidden>Please Select Holiday's Status</option>
+                                                <option value="Aproave">Approaved</option>
+                                                <option value="UnderProcessing">UnderProcessing</option>
+                                                <option value="Reject">Rejected</option>
+                                            </select>
+                                            <button type="submit" id="SearchButton" class="btn btn-primary">Search</button>
+                                        </div>
+                                      
+                                    </form>
+                                }
+                                </div>
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <div class="newVacationRequest col-lg-offset-10 col-lg-2 col-md-offset-8 col-md-4 col-sm-offset-6 col-sm-6 col-xs-offset-3 col-xs-9">
+                            <a href="@Url.Action("RequestVacation","Home")">Make New Request<span class="glyphicon glyphicon-plus"></span></a>
+                        </div>
+                        <table class="table table-striped MyVactionsTable">
+                            <tr>
+                                <th>Employee ID</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Request Status</th>
+
+                            </tr>
+                            @for (int i = 0; i < Model.MyHolidaysList.Count; i++)
+                            {
+                                <tr>
+                                    <td>@Model.MyHolidaysList[i].EmployeeId</td>
+                                    <td name="startDate">@Model.MyHolidaysList[i].HolidayStartDate.ToString("yyyy-MM-dd")</td>
+                                    <td>@Model.MyHolidaysList[i].HolidayEndDate.ToString("yyyy-MM-dd")</td>
+                                    @if (@Model.MyHolidaysList[i].HolidayStatus.Equals("UnderProcessing"))
+                                    {
+                                        <td style="background-color:burlywood">@Model.MyHolidaysList[i].HolidayStatus</td>
+                                    }
+                                    else if (@Model.MyHolidaysList[i].HolidayStatus.Equals("Aproave"))
+                                    {
+                                        <td style="background-color:greenyellow">@Model.MyHolidaysList[i].HolidayStatus</td>
+                                    }
+                                    else
+                                    {
+                                        <td style="background-color:red">@Model.MyHolidaysList[i].HolidayStatus</td>
+                                    }
+                                </tr>
+
+                            }
+                        </table>
+
+                    </div>
+
+                }
+                @if (ViewBag.ActionMethodName.Equals("ListEmployeesVacationsRequests"))
+                {
+                    <div>
+                        <table id="H" class="table table-striped MyVactionsTable" style="margin-top: 80px">
+                            <tr>
+                                <th>Employee ID</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Edit</th>
+
+                            </tr>
+                            @for (int i = 0; i < Model.MyHolidaysList.Count; i++)
+                            {
+                                <tr>
+                                    <td class="firstCell">@Model.MyHolidaysList[i].EmployeeId</td>
+                                    <td name="startDate">@Model.MyHolidaysList[i].HolidayStartDate.ToString("yyyy-MM-dd")</td>
+                                    <td>@Model.MyHolidaysList[i].HolidayEndDate.ToString("yyyy-MM-dd")</td>
+                                    <td style="background-color:aqua"><button id="@i" class="editVactionLink btn btn-primary glyphicon glyphicon-edit" style="padding-bottom:3px" data-toggle="modal" data-target="#myModal" onclick="@($"enableTxt('{@Model.MyHolidaysList[i].Id}','{@Model.MyHolidaysList[i].EmployeeId}','{@Model.MyHolidaysList[i].HolidayStartDate.ToString("yyyy-MM-dd")}','{@Model.MyHolidaysList[i].HolidayEndDate.ToString("yyyy-MM-dd")}','{@Model.MyHolidaysList[i].HolidayReason}')");"></button></td>
+
+
+                                </tr>
+
+                            }
+                        </table>
+
+                    </div>
+                }
+
+                <div id="myModal" class="modal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Holiday Information</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            @using (Html.BeginForm("UpdateHolidayStatus", "Home"))
+                            {
+                                <form>
+                                    <div class="modal-body">
+
+                                        <p>Holiday ID</p>
+                                        <input type="text" name="holidayId" id="HolidayId" class="form-control" readonly>
+
+                                        <p>Employee ID</p>
+                                        <input type="text" name="employeeName" id="EmployeeId" class="form-control" readonly>
+
+
+                                        <p>Start Date</p>
+                                        <input type="text" name="employeeName" id="StartDate" class="form-control" readonly>
+
+                                        <p>End Date</p>
+                                        <input type="text" name="employeeName" id="EndDate" class="form-control" readonly>
+
+                                        <p>Reason For Requesting the Vacation</p>
+                                        <input type="text" name="employeeName" id="Reason" class="form-control" readonly>
+
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input name="holidayStatus" id="Approave" class="form-control btn-success" type="submit" value="Aproave">
+                                        <input name="holidayStatus" id="Reject" class="form-control btn-danger" type="submit" value="Reject">
+
+                                    </div>
+                                </form>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+
+            }
+
+            @if (ViewBag.UserRole.Equals("Employee") || ViewBag.UserRole.Equals("Manager") || ViewBag.UserRole.Equals("Admin"))
+            {
+
+
+
+                <div  id="searchForVacationDiv" class="row">
+                    <div class="col-lg-offset-3 col-lg-6 ">
+                        @*<div>
+                        <input type="radio" id="status" name="check" value="status">
+                        <label for="vehicle1"> Search By Holiday's Status</label><br>
+                        <input type="radio" id="startDate" name="check" value="startDate">
+                        <label for="vehicle2"> Search By Holiday's Start Date</label><br>
+                                        <input type="hidden" id="hiddenText" />*@
+                        <!-- </div>/input-group -->
+                        <div id="StatusField">
+                            @using (Html.BeginForm("ListEmployeeVacationsByStatus", "Home"))
+                            {
+                                <form>
+
+                                    <div id="StatusField">
+                                        <select name="status" class="form-control" style="display:inline">
+                                            <option value="" disabled selected hidden>Please Select Holiday's Status</option>
+                                            <option value="Aproave">Approaved</option>
+                                            <option value="UnderProcessing">UnderProcessing</option>
+                                            <option value="Reject">Rejected</option>
+                                        </select>
+                                        <button type="submit" id="SearchButton" class="btn btn-primary">Search</button>
+                                    </div>                                   
+                                </form>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+
+                <div>
+
+                    <div class="newVacationRequest col-lg-offset-10 col-lg-2 col-md-offset-8 col-md-4 col-sm-offset-6 col-sm-6 col-xs-offset-3 col-xs-9">
+                        <a href="@Url.Action("RequestVacation","Home")">Make New Request<span class="glyphicon glyphicon-plus"></span></a>
+                    </div>
+                    <table class="table table-striped MyVactionsTable">
+                        <tr>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Status</th>
+                        </tr>
+                        @for (int i = 0; i < Model.MyHolidaysList.Count; i++)
+                        {
+                            <tr>
+                                <td>@Model.MyHolidaysList[i].HolidayStartDate.ToString("yyyy-MM-dd")</td>
+                                <td>@Model.MyHolidaysList[i].HolidayEndDate.ToString("yyyy-MM-dd")</td>
+                                @if (@Model.MyHolidaysList[i].HolidayStatus.Equals("UnderProcessing"))
+                                {
+                                    <td style="background-color:burlywood">@Model.MyHolidaysList[i].HolidayStatus</td>
+                                }
+                                else if (@Model.MyHolidaysList[i].HolidayStatus.Equals("Aproave"))
+                                {
+                                    <td style="background-color:greenyellow">@Model.MyHolidaysList[i].HolidayStatus</td>
+                                }
+                                else
+                                {
+                                    <td style="background-color:red">@Model.MyHolidaysList[i].HolidayStatus</td>
+                                }
+                            </tr>
+                        }
+
+                    </table>
+
+                </div>
+            }
+
+        }
+    </body>

@@ -1,0 +1,191 @@
+﻿
+@{
+    ViewData["Title"] = "CreateAccount";
+}
+
+
+<body class="CreateNewEmployeeBody">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">HR<span> System</span></a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+
+                    @if (ViewBag.UserRole.Equals("Admin") || ViewBag.UserRole.Equals("Manager"))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Employees<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+
+                                @if (ViewBag.UserRole.Equals("Admin"))
+                                {
+                                    <li><a href="@Url.Action("CreateAccount","Home")">Add New Manager</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="@Url.Action("RetrieveManagersEmployees","Home")">Managers Under My Administration</a></li>
+
+                                }
+                                @if (ViewBag.UserRole.Equals("Manager"))
+                                {
+                                    <li><a href="@Url.Action("CreateAccount","Home")">Add New Employee</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="@Url.Action("RetrieveManagersEmployees","Home")">Employees Under My Management</a></li>
+
+                                }
+                            </ul>
+                        </li>
+
+                    }
+                    @*<li><a href="@Url.Action("CreateAccount","Home")">Add New Employee</a></li>*@
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Vacation <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Action("RequestVacation","Home")">Request a Vaction</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="@Url.Action("ListEmployeeVacations","Home")">List My Vacations</a></li>
+
+                            @if (ViewBag.UserRole.Equals("HR"))
+                            {
+                                <li role="separator" class="divider"></li>
+                                <li><a href="@Url.Action("ListEmployeesVacationsRequests","Home")">List Employees Requests</a></li>
+                            }
+                        </ul>
+                    </li>
+
+
+
+
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span><span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Action("EmployeeDetails","Home")">My Profile</a></li>
+
+                            <li role="separator" class="divider"></li>
+                            @if (!ViewBag.UserRole.Equals("Admin"))
+                            {
+                                <li><a href="@Url.Action("ShowManagerDetails","Home")">Manager Profile</a></li>
+                                <li role="separator" class="divider"></li>
+                            }
+
+
+                            <li><a href="@Url.Action("Logout","Home")">Logout<span class="glyphicon glyphicon-log-out"></span></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div><!--END OF THE CONTAINER-->
+
+    </nav>
+    <div class="SignupForm col-lg-offset-3 col-lg-6 col-md-offset-3 col-md-6">
+        <div class="brand-wrapper">
+            <img src="~/assets/images/logo4.png" alt="logo" class="img-responsive center-block">
+        </div>
+        <p class="Signup-card-description">Create Your New Account</p>
+        @using (Html.BeginForm("CreateAccount", "Home"))
+        {
+            <form>
+                <div class="form-group">
+                    <label for="employeeName" class="sr-only">Employee Name</label>
+                    <input type="text" name="employeeName" id="EmployeeName" class="form-control" placeholder="Please Enter Your full  name here">
+                </div>
+
+                <div class="form-group">
+                    <label for="mobileNumber" class="sr-only">Mobile Number</label>
+                    <input type="text" name="mobileNumber" id="MobileNumber" class="form-control" placeholder="Please Enter Your Mobile Number">
+                </div>
+                <div class="form-group">
+                    <label for="employeeBirthDate" class="sr-only">Birth Date</label>
+                    <input type="date" name="employeeBirthDate" id="EmployeeBirthDate" class="form-control" data-date-format="yyyy-mm-dd" placeholder="Enter Your BirthDate Please">
+                </div>
+
+                <div class="form-group">
+                    <label for="role" class="sr-only">Role</label>
+                   @if (ViewBag.UserRole.Equals("Manager"))
+                    {
+                        <select id="role" name="role" class="form-control">
+                            <option value="" disabled selected hidden>Choose The Employee Role</option>
+                            <option value="HR">HR</option>
+                            <option value="Employee">Employee</option>
+
+                        </select>
+                    }
+                    @if (ViewBag.UserRole.Equals("Admin"))
+                    {
+                        <input type="text" name="role" id="role" class="form-control" value="Manager" readonly>
+                    }
+                </div>
+
+
+                <div class="form-group">
+                    <label for="gender" class="sr-only">Gender</label>
+                    <select id="Gender" name="gender" class="form-control">
+                        <option value="" disabled selected hidden>Choose You Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="sr-only">Email</label>
+                    <input type="email" name="email" id="email" class="form-control" placeholder="Email address">
+                </div>
+                <div class="form-group">
+                    <label for="email" class="sr-only">Email</label>
+                    <input type="text" id="password" name="password" class="form-control">
+                </div>
+
+                <div class="form-group mb-4">
+                    <label for="signup" class="sr-only">Signup</label>
+                    <input name="signup" id="signup" class="form-control" type="submit" value="Create The Account" />
+                </div>
+
+            </form>
+        }
+
+    </div>
+
+    <script>
+
+        var el_down = document.getElementById("password");
+
+        /* Function to generate combination of password */
+        function generateP() {
+            var pass = '';
+            var str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' +
+                'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$';
+
+            for (i = 1; i <= 8; i++) {
+                var char = Math.floor(Math.random()
+                    * str.length + 1);
+
+                pass += str.charAt(char)
+            }
+
+            return pass;
+        }
+
+        function gfg_Run() {
+            el_down.innerHTML = generateP();
+            //document.getElementById("password").innerHTML = generateP();
+
+        }
+        window.onload = function () {
+            document.getElementById("password").value = generateP();
+        }
+    </script>
+
+</body>
+
+
+

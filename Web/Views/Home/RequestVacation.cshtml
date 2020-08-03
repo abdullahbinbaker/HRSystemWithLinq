@@ -1,0 +1,159 @@
+﻿
+@{
+    ViewData["Title"] = "Request Vacation Page";
+}
+
+<body class="RequestVacationBody">
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <script>
+        $(document).ready(function () {
+            alert('@ViewBag.ViewBag.Error');
+        });
+        </script>
+    }
+    @if (ViewBag.ErrorMessage == null)
+    {
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">HR<span> System</span></a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+
+                @if (ViewBag.UserRole.Equals("Admin") || ViewBag.UserRole.Equals("Manager"))
+                {
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Employees<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+
+                            @if (ViewBag.UserRole.Equals("Admin"))
+                            {
+                                <li><a href="@Url.Action("CreateAccount","Home")">Add New Manager</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="@Url.Action("RetrieveManagersEmployees","Home")">Managers Under My Administration</a></li>
+
+                            }
+                            @if (ViewBag.UserRole.Equals("Manager"))
+                            {
+                                <li><a href="@Url.Action("CreateAccount","Home")">Add New Employee</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="@Url.Action("RetrieveManagersEmployees","Home")">Employees Under My Management</a></li>
+
+                            }
+                        </ul>
+                    </li>
+
+                }
+                @*<li><a href="@Url.Action("CreateAccount","Home")">Add New Employee</a></li>*@
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Vacation <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="@Url.Action("RequestVacation","Home")">Request a Vaction</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="@Url.Action("ListEmployeeVacations","Home")">List My Vacations</a></li>
+
+                        @if (ViewBag.UserRole.Equals("HR"))
+                        {
+                            <li role="separator" class="divider"></li>
+                            <li><a href="@Url.Action("ListEmployeesVacationsRequests","Home")">List Employees Requests</a></li>
+                        }
+                    </ul>
+                </li>
+
+
+
+
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="@Url.Action("EmployeeDetails","Home")">My Profile</a></li>
+
+                        <li role="separator" class="divider"></li>
+                        @if (!ViewBag.UserRole.Equals("Admin"))
+                        {
+                            <li><a href="@Url.Action("ShowManagerDetails","Home")">Manager Profile</a></li>
+                            <li role="separator" class="divider"></li>
+                        }
+
+
+                        <li><a href="@Url.Action("Logout","Home")">Logout<span class="glyphicon glyphicon-log-out"></span></a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div><!--END OF THE CONTAINER-->
+
+</nav>
+        
+        <div class="requestVacationDiv col-lg-offset-3 col-lg-6 col-md-offset-3 col-md-6">
+            <div class="brand-wrapper">
+                <img src="~/assets/images/logo4.png" alt="logo" class="img-responsive center-block">
+            </div>
+
+            <div class="RequestVacationForm col-lg-offset-3 col-lg-6 col-md-offset-3 col-md-6">
+                @using (Html.BeginForm("RequestVacation", "Home"))
+                {
+                    <form class="col-lg-offset-3 col-lg-6 col-md-offset-3 col-md-6">
+
+                        <fieldset>
+                            @*<div class="form-group">
+            <label for="text">Start Date</label>
+            <input type="date" name="StartDate" class="form-control" placeholder="Enter You Vacation Start Date please!">
+        </div>
+        <div class="form-group">
+            <label for="text">End Date</label>
+            <input type="date" name="EndDate" class="form-control" placeholder="Enter You Vacation End Date please!">
+        </div>*@
+                            <div class="form-group">
+                                <!-- Date input -->
+                                <label class="control-label" for="date">Date</label>
+                                <input type="text" class="form-control" id="startDate" name="StartDate" placeholder="MM/DD/YYY" />
+                            </div>
+
+                            <div class="form-group">
+                                <!-- Date input -->
+                                <label class="control-label" for="date">Date</label>
+                                <input class="form-control" id="endDate" name="EndDate" placeholder="MM/DD/YYY" type="text" />
+                            </div>
+                            <select name="Reason" class="form-control">
+                                <option value="" disabled selected hidden>Choose The Employee Role</option>
+                                <option value="Annual">Annual</option>
+                                <option value="Sick">Sick</option>
+                                <option value="Leave">Leave</option>
+                                <option value="Exceptional">Exceptional</option>
+                            </select>
+                            @*<div class="form-group">
+            <label for="text">Reason For Requesting this Vacation</label>
+            <textarea name="Reason" class="form-control" rows="3"></textarea>
+        </div>*@
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </fieldset>
+
+                    </form>
+                }
+            </div>
+
+        </div>
+    }
+</body>
+
+
+
+
+
+
+
+
+
+
